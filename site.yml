@@ -1,0 +1,5 @@
+- name: Download and install Windows server updates
+- hosts: win
+
+  roles:
+     - ansible-role-winupdates
