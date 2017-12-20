@@ -7,5 +7,16 @@ admin_pass: !vault |
           33613161336164343434643261353164666534356466386334646532313232333264656435316532
           6432343261343535630a383736656461663033636339346362643461366461633062656463616534
           6536
-win_updates_reboot: true
-win_updates_category_names: ['CriticalUpdates','SecurityUpdates','UpdateRollups','Updates']
+win_updates_category_names:
+  - Application
+  - Connectors
+  - CriticalUpdates
+  - DefinitionUpdates
+  - DeveloperKits
+  - FeaturePacks
+  - Guidance
+  - SecurityUpdates
+  - ServicePacks
+  - Tools
+  - UpdateRollups
+  - Updates

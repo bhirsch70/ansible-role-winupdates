@@ -1,13 +1,20 @@
 ---
 # tasks file for ansible-role-winupdates
-- name: Install Windows updates
-  win_updates:
-    category_names: "{{ win_updates_category_names }}"
-  register: winup_result
-  failed_when: winup_result.failed is defined and winup_result.failed and win_updates_reboot == False
+- block:
+    - name: Check for missing updates.
+      win_updates: state=searched
+      register: update_count
+- block:
+    - name: Install Windows updates
+      win_updates:
+        category_names: "{{ item }}"
+      with_items:
+        - "{{ win_updates_category_names }}"
+      register: winup_result
 
-- name: "Reboot when updates installed."
-  win_reboot:
-    shutdown_timeout_sec: 300
-    reboot_timeout_sec: 300
-  when: winup_result.reboot_required == True and win_updates_reboot
+    - name: "Reboot when updates installed."
+      win_reboot:
+      shutdown_timeout_sec: 300
+      reboot_timeout_sec: 300
+      when: winup_result.reboot_required
+  when: update_count.found_update_count|int >= 1
